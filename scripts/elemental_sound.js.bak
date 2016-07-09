@@ -1,0 +1,209 @@
+var canvas, context;
+var mouse_x, mouse_y;
+var dVolume = 0.05;
+var nPlaying;
+var elements;
+var scale;
+var translateX, translateY;
+
+function init() {
+		canvas = document.getElementById("canvas");
+
+		if( canvas.getContext ) {
+				context = canvas.getContext("2d");
+
+				window.addEventListener('resize',draw,false);
+
+				nPlaying = 0;
+				elements = new Array();
+				elements.push(new Element(0,0,40,50,["HI"],'1'));
+				elements.push(new Element(850,0,40,50,["HeI","HeII"],'2'));
+				elements.push(new Element(0,60,40,50,["LiI","LiII"],'3'));
+				elements.push(new Element(50,60,40,50,["BeI","BeII"],'4'));
+				elements.push(new Element(600,60,40,50,["BI","BII"],'5'));
+				elements.push(new Element(650,60,40,50,["CI","CII"],'6'));
+				elements.push(new Element(700,60,40,50,["NI","NII"],'7'));
+				elements.push(new Element(750,60,40,50,["OI","OII"],'8'));
+				elements.push(new Element(800,60,40,50,["FI","FII"],'9'));
+				elements.push(new Element(850,60,40,50,["NeI","NeII"],'10'));
+				elements.push(new Element(0,120,40,50,["NaI","NaII"],'11'));
+				elements.push(new Element(50,120,40,50,["MgI","MgII"],'12'));
+				elements.push(new Element(600,120,40,50,["AlI","AlII"],'13'));
+				elements.push(new Element(650,120,40,50,["SiI","SiII"],'14'));
+				elements.push(new Element(700,120,40,50,["PI","PII"],'15'));
+				elements.push(new Element(750,120,40,50,["SI","SII"],'16'));
+				elements.push(new Element(800,120,40,50,["ClI","ClII"],'17'));
+				elements.push(new Element(850,120,40,50,["ArI","ArII"],'18'));
+				elements.push(new Element(0,180,40,50,["KI","KII"],'19'));
+				elements.push(new Element(50,180,40,50,["CaI","CaII"],'20'));
+				elements.push(new Element(100,180,40,50,["ScI","ScII"],'21'));
+				elements.push(new Element(150,180,40,50,["TiI","TiII"],'22'));
+				elements.push(new Element(200,180,40,50,["CrI","CrII"],'23'));
+				elements.push(new Element(250,180,40,50,["VI","VII"],'24'));
+				elements.push(new Element(300,180,40,50,["MnI","MnII"],'25'));
+				elements.push(new Element(350,180,40,50,["FeI","FeII"],'26'));
+				elements.push(new Element(400,180,40,50,["CoI","CoII"],'27'));
+				elements.push(new Element(450,180,40,50,["NiI","NiII"],'28'));
+				elements.push(new Element(500,180,40,50,["CuI","CuII"],'29'));
+				elements.push(new Element(550,180,40,50,["ZnI","ZnII"],'30'));
+				elements.push(new Element(600,180,40,50,["GaI","GaII"],'31'));
+				elements.push(new Element(650,180,40,50,["GeI","GeII"],'32'));
+				elements.push(new Element(700,180,40,50,["AsI","AsII"],'33'));
+				elements.push(new Element(750,180,40,50,["SeI","SeII"],'34'));
+				elements.push(new Element(800,180,40,50,["BrI","BrII"],'35'));
+				elements.push(new Element(850,180,40,50,["KrI","KrII"],'36'));
+				elements.push(new Element(0,240,40,50,["RbI","RbII"],'37'));
+				elements.push(new Element(50,240,40,50,["SrI","SrII"],'38'));
+				elements.push(new Element(100,240,40,50,["YI","YII"],'39'));
+				elements.push(new Element(150,240,40,50,["RrI","RbII"],'40'));
+				elements.push(new Element(200,240,40,50,["MoI","MoII"],'41'));
+				elements.push(new Element(250,240,40,50,["NbI","NbII"],'42'));
+				elements.push(new Element(300,240,40,50,["TcI","TcII"],'43'));
+				elements.push(new Element(350,240,40,50,["RuI","RuII"],'44'));
+				elements.push(new Element(400,240,40,50,["RhI","RhII"],'45'));
+				elements.push(new Element(450,240,40,50,["PdI","PdII"],'46'));
+				elements.push(new Element(500,240,40,50,["AgI","AgII"],'47'));
+				elements.push(new Element(550,240,40,50,["CdI","CdII"],'48'));
+				elements.push(new Element(600,240,40,50,["InI","InII"],'49'));
+				elements.push(new Element(650,240,40,50,["SnI","SnII"],'50'));
+				elements.push(new Element(700,240,40,50,["SbI","SbII"],'51'));
+				elements.push(new Element(750,240,40,50,["TeI","TeII"],'52'));
+				elements.push(new Element(800,240,40,50,["II","III"],'53'));
+				elements.push(new Element(850,240,40,50,["XeI","XeII"],'54'));
+				elements.push(new Element(0,300,40,50,["CsI","CsII"],'55'));
+				elements.push(new Element(50,300,40,50,["BaI","BaII"],'56'));
+				elements.push(new Element(130,440,40,50,["LaI","LaII"],'57'));
+				elements.push(new Element(180,440,40,50,["CeI","CeII"],'58'));
+				elements.push(new Element(230,440,40,50,["PrI","PrII"],'59'));
+				elements.push(new Element(280,440,40,50,["NdI","NdII"],'60'));
+				elements.push(new Element(330,440,40,50,["PmI","PmII"],'61'));
+				elements.push(new Element(380,440,40,50,["SmI","SmII"],'62'));
+				elements.push(new Element(430,440,40,50,["EuI","EuII"],'63'));
+				elements.push(new Element(480,440,40,50,["GdI","GdII"],'64'));
+				elements.push(new Element(530,440,40,50,["TbI","TbII"],'65'));
+				elements.push(new Element(580,440,40,50,["DyI","DyII"],'66'));
+				elements.push(new Element(630,440,40,50,["HoI","HoII"],'67'));
+				elements.push(new Element(680,440,40,50,["ErI","ErII"],'68'));
+				elements.push(new Element(730,440,40,50,["TmI","TmII"],'69'));
+				elements.push(new Element(780,440,40,50,["YbI","YbII"],'70'));
+				elements.push(new Element(830,440,40,50,["LuI","LuII"],'71'));
+				elements.push(new Element(150,300,40,50,["HfI","HfII"],'72'));
+				elements.push(new Element(200,300,40,50,["WI","WII"],'73'));
+				elements.push(new Element(250,300,40,50,["TaI","TaII"],'74'));
+				elements.push(new Element(300,300,40,50,["ReI","ReII"],'75'));
+				elements.push(new Element(350,300,40,50,["OsI","OsII"],'76'));
+				elements.push(new Element(400,300,40,50,["IrI","IrII"],'77'));
+				elements.push(new Element(450,300,40,50,["PtI","PtII"],'78'));
+				elements.push(new Element(500,300,40,50,["AuI","AuII"],'79'));
+				elements.push(new Element(550,300,40,50,["HgI","HgII"],'80'));
+				elements.push(new Element(600,300,40,50,["TlI","TlII"],'81'));
+				elements.push(new Element(650,300,40,50,["PbI","PbII"],'82'));
+				elements.push(new Element(700,300,40,50,["BiI","BiII"],'83'));
+				elements.push(new Element(750,300,40,50,["PoI"],'84'));
+				elements.push(new Element(800,300,40,50,["AtI"],'85'));
+				elements.push(new Element(850,300,40,50,["RnI"],'86'));
+				elements.push(new Element(0,360,40,50,["FrI"],'87'));
+				elements.push(new Element(50,360,40,50,["RaI","RaII"],'88'));
+				elements.push(new Element(130,500,40,50,["AcI","LaII"],'89'));
+				elements.push(new Element(180,500,40,50,["ThI","ThII"],'90'));
+				elements.push(new Element(230,500,40,50,["PaI","PaII"],'91'));
+				elements.push(new Element(280,500,40,50,["UI","UII"],'92'));
+				elements.push(new Element(330,500,40,50,["NpI","NpII"],'93'));
+				elements.push(new Element(380,500,40,50,["PuI","PuII"],'94'));
+				elements.push(new Element(430,500,40,50,["AmI","AmII"],'95'));
+				elements.push(new Element(480,500,40,50,["CmI","CmII"],'96'));
+				elements.push(new Element(530,500,40,50,["BkI","BkII"],'97'));
+				elements.push(new Element(580,500,40,50,["CfI","CfII"],'98'));
+				elements.push(new Element(630,500,40,50,["EsI","EsII"],'99'));
+				elements.push(new Element(680,500,40,50,["FmI"],'100'));
+				elements.push(new Element(730,500,40,50,["MdI"],'101'));
+				elements.push(new Element(780,500,40,50,["NoI"],'102'));
+				elements.push(new Element(830,500,40,50,["LrI"],'103'));
+				elements.push(new Element(150,360,40,50,["RfI"],'104'));
+				elements.push(new Element(200,360,40,50,["DbI"],'105'));
+				elements.push(new Element(250,360,40,50,["SbI"],'106'));
+				elements.push(new Element(300,360,40,50,["BhI"],'107'));
+				elements.push(new Element(350,360,40,50,["HsI"],'108'));
+				elements.push(new Element(400,360,40,50,["MtI"],'109'));
+				elements.push(new Element(450,360,40,50,["DsI"],'110'));
+				elements.push(new Element(500,360,40,50,["RgI"],'111'));
+				elements.push(new Element(550,360,40,50,["CnI"],'112'));
+				elements.push(new Element(600,360,40,50,["UutI"],'113'));
+				elements.push(new Element(650,360,40,50,["FlI"],'114'));
+				elements.push(new Element(700,360,40,50,["UupI"],'115'));
+				elements.push(new Element(750,360,40,50,["LvI"],'116'));
+				elements.push(new Element(800,360,40,50,["UusI"],'117'));
+				elements.push(new Element(850,360,40,50,["UuoI"],'118'));
+
+				elements[87-1].disabled = true;
+				for( var i=100; i<119; i++ )
+						elements[i-1].disabled = true;
+
+				draw();
+		}
+}
+
+function draw() {
+		context.save();
+
+		canvas.width = Math.max(window.innerWidth,534);
+		canvas.height = Math.max(window.innerHeight-4,300);
+
+		context.clearRect(0,0,canvas.width,canvas.height);
+		//context.fillStyle = 'rgb(230,230,230)';
+		//context.fillRect(0,0,canvas.width,canvas.height);
+
+		scale = Math.min(canvas.width/910,canvas.height/570);
+		translateX = 0.5*(canvas.width-910*scale);
+		translateY = 0.5*(canvas.height-570*scale);
+		context.save();
+		context.translate(translateX,translateY);
+		context.scale(scale,scale);
+		context.translate(10,10);
+		for( var i=0; i<elements.length; i++ ) {
+				elements[i].draw();
+		}
+		context.restore();
+
+		context.restore();
+}
+
+function mouse_move(event) {
+}
+
+function mouse_click(event) {
+		if (!event) var event = window.event;
+		if (event.pageX || event.pageY) 	{
+				mouse_x = event.pageX;
+				mouse_y = event.pageY;
+		}
+		else if (event.clientX || event.clientY) 	{
+				mouse_x = event.clientX + document.body.scrollLeft
+						+ document.documentElement.scrollLeft;
+				mouse_y = event.clientY + document.body.scrollTop
+						+ document.documentElement.scrollTop;
+		}
+		mouse_x = (mouse_x-translateX)/scale-10;
+		mouse_y = (mouse_y-translateY)/scale-10;
+		for( var i=0; i<elements.length; i++ ) {
+				var change = elements[i].handle_click(mouse_x,mouse_y);
+				if( change[1] ) {
+						context.save();
+						context.translate(translateX,translateY);
+						context.scale(scale,scale);
+						context.translate(10,10);
+						elements[i].draw();
+						context.restore();
+				}
+				nPlaying += change[0];
+		}
+		for( var i=0; i<elements.length && nPlaying>0; i++ ) {
+				elements[i].set_volume(1.0/nPlaying);
+		}
+}
+
+function mouse_down(event) {
+}
+
+function mouse_up(event) {
+}
